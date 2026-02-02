@@ -1,3 +1,7 @@
+# Soft Actor Critic Tutorial
+
+**Author:** Yeshwant Dattatreya
+
 # Introduction
 
 Soft Actor-Critic (SAC) was published in 2018, and it quickly became a
