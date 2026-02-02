@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Blog</title>
+
+  <!-- Render Markdown -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <!-- MathJax (LaTeX rendering) -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    body { max-width: 900px; margin: 40px auto; padding: 0 16px; font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+    img { max-width: 100%; }
+    pre { overflow: auto; padding: 12px; background: #f6f8fa; border-radius: 8px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+  </style>
+</head>
+<body>
+  <article id="content">Loading…</article>
+
+  <script>
+    async function main() {
+      const md = await fetch('README.md', { cache: 'no-store' }).then(r => r.text());
+      document.getElementById('content').innerHTML = marked.parse(md);
+      // Render math after Markdown is inserted
+      if (window.MathJax) await MathJax.typesetPromise();
+    }
+    main();
+  </script>
+</body>
+</html>
