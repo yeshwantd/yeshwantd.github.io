@@ -30,7 +30,7 @@ the learning algorithm updates the policy to reinforce actions that tend
 to produce higher rewards, so the agent becomes more likely to repeat
 behaviors that work and less likely to repeat ones that don't.
 
-![RL Loop](SAC1.jpg){#fig:my-figure width="60%"}
+![RL Loop](SAC1.jpg)
 
 # Policies, Rewards, and the RL Objective
 
@@ -308,11 +308,11 @@ OpenAI Spinning
 Up](https://spinningup.openai.com/en/latest/algorithms/sac.html#pseudocode)
 and code it up line by line.
 
-![Algorithm from the SAC paper](SAC_algo_paper.png){width="60%"}
+#### Algorithm from the SAC paper
+![Algorithm from the SAC paper](SAC_algo_paper.png)
 
-::: center
-![image](SAC_from_Spinning_Up.png){width="\\linewidth" height="85%"}
-:::
+#### Algorithm from Spinning Up
+![image](SAC_from_Spinning_Up.png)
 
 # Coding SAC
 
@@ -438,7 +438,7 @@ whether $s'$ is terminal\
 7: Store $(s,a,r,s',d)$ in replay buffer $\mathcal{D}$\
 8: If $s'$ is terminal, reset environment state**
 
-``` {.python breaklines="" breakanywhere=""}
+``` python
 for i in range(num_trajectories):
     obs, info = env.reset()
     done = False
@@ -782,7 +782,7 @@ Humanoid typically expects torques in a smaller range
 (`env.action_space.low/high`). A robust approach is to map $[-1,1]$ into
 the environment bounds before calling `env.step(...)`:
 
-``` {.python breaklines="" breakanywhere=""}
+``` python
 env_action = env.action_space.low + (action + 1.0) * 0.5 * (env.action_space.high - env.action_space.low)
 next_obs, reward, terminated, truncated, info = env.step(env_action)
 ```
@@ -794,7 +794,7 @@ improvement is to learn $\alpha$ automatically by targeting a desired
 entropy level. A simple default is setting target entropy to minus the
 number of action dimensions.
 
-``` {.python breaklines="" breakanywhere=""}
+``` python
 target_entropy = -torch.prod(torch.Tensor(env.action_space.shape).to(torch.device("cpu"))).item()
 log_alpha = torch.zeros(1, requires_grad=True)
 alpha_optim = optim.Adam([log_alpha], lr=alpha_lr)
@@ -812,7 +812,7 @@ alpha = log_alpha.exp()
 Humanoid observations contain many components with different scales.
 Using a running mean and variance normalizer often improves stability.
 
-``` {.python breaklines="" breakanywhere=""}
+``` python
 class RunningMeanStd:
     def __init__(self, shape):
         self.mean = np.zeros(shape)
@@ -858,7 +858,7 @@ elementwise as $$\hat{x} = \frac{x-\mu}{\sqrt{\sigma^2}+\epsilon}.$$
 Instantiate an object of type RunningMeanStd, and use it to normalize
 the observations, like so:
 
-``` {.python breaklines="" breakanywhere=""}
+``` python
 obs_normalizer = RunningMeanStd(shape=(obs_dim,))
 ...
 obs, info = env.reset()
@@ -879,7 +879,7 @@ Here is a short demo of the trained policy on Humanoid:\
 
 # Full Implementation of SAC for LunarLanderContinuous
 
-``` {.python breaklines="" breakanywhere=""}
+``` python
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -1167,7 +1167,7 @@ if __name__ == "__main__":
 
 # Full Implementation of SAC for Humaoid
 
-``` {.python breaklines="" breakanywhere=""}
+``` python
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
